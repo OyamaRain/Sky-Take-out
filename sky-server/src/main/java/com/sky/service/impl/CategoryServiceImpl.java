@@ -6,18 +6,31 @@ import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.CategoryMapper;
+import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
+import static com.sky.constant.MessageConstant.*;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private DishMapper dishMapper;
+    @Autowired
+    private SetmealMapper setmealMapper;
 
 
     @Override
@@ -61,7 +74,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
+        // 检查是否为启售状态
+        Category category = categoryMapper.getById(id);
+        if (category.getStatus() == StatusConstant.ENABLE) {
+            throw new DeletionNotAllowedException(CATEGORY_ON_SALE);
+        }
+        // 检查是否关联了菜品或套餐
+        Long categoryId = category.getId();
+        List<Dish> dishListByCategory = dishMapper.getDishListByCategory(categoryId);
+        List<Setmeal> setmeals = setmealMapper.selectByCategoryId(categoryId);
+        if(!dishListByCategory.isEmpty()){
+            throw new DeletionNotAllowedException(CATEGORY_BE_RELATED_BY_DISH);
+        }
+        else if(!setmeals.isEmpty()){
+            throw new DeletionNotAllowedException(CATEGORY_BE_RELATED_BY_SETMEAL);
+        }
+        // 删除分类
         categoryMapper.delete(id);
     }
 
