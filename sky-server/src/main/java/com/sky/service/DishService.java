@@ -31,4 +31,7 @@ public interface DishService {
 
     //修改菜品
     void updateDish(DishDTO dishDTO);
+
+    //根据条件查询菜品和对应的口味
+    List<DishVO> listWithFlavor(Dish dish);
 }
