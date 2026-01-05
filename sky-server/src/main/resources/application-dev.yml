@@ -20,3 +20,9 @@ sky:
   wechat:
     appid: ${WECHAT_APPID}
     secret: ${WECHAT_SECRET}
+#    mch-serial-no:
+#    private-key-path:
+#    api-v3-key:
+#    wechat-pay-notify-url:
+#    notify-url:
+#    refund-notify-url:
