@@ -27,6 +27,7 @@
         where id = #{id}
     </update>
 
+
     <select id="pageQuery" resultType="com.sky.entity.Orders">
         select * from orders
         <where>
@@ -52,5 +53,16 @@
         order by order_time desc
     </select>
 
-
+    <update id="updata">
+        update orders
+        <set>
+            <if test="status != null"> status = #{status}, </if>
+            <if test="deliveryTime != null"> delivery_time = #{deliveryTime} </if>
+            <if test="cancelReason != null and cancelReason != '' "> cancel_reason=#{cancelReason}, </if>
+            <if test="rejectionReason != null and rejectionReason != '' "> rejection_reason=#{rejectionReason}, </if>
+            <if test="cancelTime != null"> cancel_time=#{cancelTime}, </if>
+            <if test="payStatus != null"> pay_status=#{payStatus}, </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

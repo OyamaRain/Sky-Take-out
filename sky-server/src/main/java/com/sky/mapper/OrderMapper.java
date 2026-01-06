@@ -3,10 +3,7 @@ package com.sky.mapper;
 import com.github.pagehelper.Page;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
-import com.sky.vo.OrderVO;
 import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -32,4 +29,9 @@ public interface OrderMapper {
 
     @Delete("delete from orders where id = #{id}")
     void deleteById(Long id);
+
+    @Select("select count(*) from orders where status = #{status}")
+    Integer countByStatus(Integer status);
+
+    void updata(Orders order);
 }
