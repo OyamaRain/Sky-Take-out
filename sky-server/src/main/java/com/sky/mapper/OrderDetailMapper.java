@@ -10,8 +10,8 @@ import java.util.List;
 
 @Mapper
 public interface OrderDetailMapper {
-    @Insert("insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount) VALUES " +
-            "(#{name}, #{image}, #{orderId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount})")
+    @Insert("insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, number, amount) VALUES " +
+            "(#{name}, #{image}, #{orderId}, #{dishId}, #{setmealId}, #{dishFlavor},#{number} , #{amount})")
     void insert(OrderDetail orderDetail);
 
     @Select("select * from order_detail where order_id = #{orderId}")

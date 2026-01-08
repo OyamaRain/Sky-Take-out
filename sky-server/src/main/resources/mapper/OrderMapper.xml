@@ -53,6 +53,14 @@
         order by order_time desc
     </select>
 
+    <select id="getOrdersByTime" resultType="com.sky.entity.Orders">
+        select * from orders
+        where order_time &gt;= #{beginTime}
+            and order_time &lt;= #{endTime}
+            and status = #{status}
+        order by order_time desc
+    </select>
+
     <update id="updata">
         update orders
         <set>
