@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -42,4 +43,9 @@ public interface OrderMapper {
     List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
 
     List<Orders> getOrdersByTime(LocalDateTime beginTime, LocalDateTime endTime , Integer status);
+
+
+    Integer countByMap(Map map);
+
+    Double sumByMap(Map map);
 }
